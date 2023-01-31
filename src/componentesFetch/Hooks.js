@@ -2,20 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 function Hooks(props) {
 
-    const [contador, setCount] = useState(props.initialNumber);
+   
     const [productos, setProductos] = useState([]);
 
-   const handleClick= ()=>{
-       
-    if (contador >= (productos.length -1)) {
-        setCount(0);
-
-        
-    }else{
-        setCount(contador+1);
-    }
-
-    }
+  
 
     const fetchApi = ()=>{
         console.log("llamar");
@@ -27,16 +17,14 @@ function Hooks(props) {
 
     useEffect (()=>{
         fetchApi();
-    }, [contador]);
+    }, );
 
     return (<div>
-        <p>{contador}</p>
-        <br></br>
-        <h1>{productos[contador]?.title}</h1>
-        <p>{productos[contador]?.description}</p>
-        <img src={productos[contador]?.images[0]}></img>
-        <br></br>
-        <button onClick={handleClick}>Siguiente Producto</button>
+        {productos.map((value) => 
+        <div>
+            <a href={"./Producto/" + value.id}><h1>{value.title}</h1></a>
+            <img src={value.images[0]}></img>
+        </div> )}
     </div>);
 }
 export default Hooks;

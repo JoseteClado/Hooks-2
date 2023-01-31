@@ -1,22 +1,45 @@
-import React from 'react';
+import { useEffect, useState } from "react";
+import Hooks from "./Hooks.js";
+import { useParams } from "react-router-dom";
 
-class Producto extends React.Component{
-    constructor(props){
-        super(props);
-        this.state ={datos: props.datos}
-        console.log(props)
+// useEffect(()=>{
+//     fetch
+// })
 
-    }
+function Producto (props){
+    
+  const [ producto, setProducto ] = useState();
+  const { id } = useParams();
 
-    render(){
-        return(
-            <div>
-                <p>{this.state.datos.title}</p>
-                <p>{this.state.datos.description}</p>
-                <img src={this.state.datos.images[1]}></img>
-            </div>
-        );
-    }
+  const fetchApi = () => {
+    fetch("https://dummyjson.com/products/" + id)
+      .then((res) => res.json())
+      .then((data) => {
+          console.log(data)
+        setProducto(data);
+      });
+  };
+
+  useEffect(() => {
+    fetchApi();
+  });
+
+  if (producto) {
+    return (
+     
+        <div class="main">
+          <p><b>Título: </b>{producto.title}</p>
+          <p><b>Descripción: </b>{producto.description}</p>
+          <p><b>Precio: </b>{producto.price}</p>
+          <img src={producto.images[0]}></img>
+        </div>
+      );  
+}else{
+    return <div>
+        
+    </div>;
+}
+  
 }
 
 export default Producto;
